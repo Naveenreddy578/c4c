@@ -1,0 +1,8 @@
+c4c_form.form:
+  path: '/RegistrationForm'
+  defaults:
+    _form: '\Drupal\c4c_form\Form\RegistrationForm'
+    _title: 'Registration Form'
+  requirements:
+    _permission: 'access content'
+    _access: 'TRUE'

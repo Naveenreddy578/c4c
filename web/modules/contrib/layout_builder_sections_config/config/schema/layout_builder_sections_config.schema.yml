@@ -1,0 +1,13 @@
+layout_builder_sections_config.settings:
+  type: config_object
+  label: 'Layout Builder Sections Config settings'
+  mapping:
+    title_wrappers:
+      type: string
+      label: 'Title wrappers'
+    title_positions:
+      type: string
+      label: 'Title positions'
+    title_colors:
+      type: string
+      label: 'Title colors'

@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('cloudc/glide') }}
+{{ attach_library('cloudc/banner') }}
+
+<div class="glide heropeek">
+  <div class="glide__track" data-glide-el="track">
+    <ul class="glide__slides">
+      {% for row in rows %}
+        <li class="glide__slide">{{- row.content -}}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="glide__arrows" data-glide-el="controls">
+    <button class="glide__arrow glide__arrow--prev" data-glide-dir="<">prev</button>
+    <button class="glide__arrow glide__arrow--next" data-glide-dir=">">next</button>
+  </div>
+</div>

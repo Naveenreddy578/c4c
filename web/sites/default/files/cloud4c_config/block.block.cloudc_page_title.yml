@@ -1,0 +1,26 @@
+uuid: 3b9894a3-29e9-47e6-a370-7ca7d0e4edfb
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - cloudc
+_core:
+  default_config_hash: 6aOgWsNTXjqrDm98TXSAjP6qd2nCijD1xw45MrnbK-Y
+id: cloudc_page_title
+theme: cloudc
+region: header
+weight: -5
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

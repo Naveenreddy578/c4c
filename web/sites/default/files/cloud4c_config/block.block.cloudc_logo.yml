@@ -1,0 +1,25 @@
+uuid: b7df5d24-1565-4a32-938b-69224f462892
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:0e9e5fe5-03f4-4d12-9c75-cbe370704a84'
+  module:
+    - block_content
+  theme:
+    - cloudc
+id: cloudc_logo
+theme: cloudc
+region: navigation
+weight: 0
+provider: null
+plugin: 'block_content:0e9e5fe5-03f4-4d12-9c75-cbe370704a84'
+settings:
+  id: 'block_content:0e9e5fe5-03f4-4d12-9c75-cbe370704a84'
+  label: Logo
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

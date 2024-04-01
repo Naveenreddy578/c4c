@@ -1,0 +1,23 @@
+global:
+  header: true
+  css:
+    theme:
+      css/global.css: {}
+  js:
+    js/global.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+
+glide:
+  header: true
+  js:
+    //cdnjs.cloudflare.com/ajax/libs/Glide.js/3.0.2/glide.js: {}
+
+banner:
+  js:
+    js/banner.js: {preprocess: false}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - cloudc/glide

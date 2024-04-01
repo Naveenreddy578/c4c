@@ -1,0 +1,22 @@
+uuid: e09c4660-c956-49e9-b9ad-ba15c81de9be
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - cloudc
+_core:
+  default_config_hash: erQSEZF2XUjNmgTl0uNRBzmg18ZGXwUcw2FhApoeuHk
+id: cloudc_content
+theme: cloudc
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

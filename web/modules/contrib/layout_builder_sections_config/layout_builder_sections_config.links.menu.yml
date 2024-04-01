@@ -1,0 +1,5 @@
+layout_builder_sections_config.settings:
+  route_name: 'layout_builder_sections_config.settings'
+  title: 'Layout Builder Sections Configuration'
+  description: 'Layout Builder Sections Configuration.'
+  parent: system.admin_config_content

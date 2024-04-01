@@ -1,0 +1,20 @@
+uuid: 1a8df933-e10c-4560-9001-6b00d954b761
+langcode: en
+status: true
+dependencies:
+  theme:
+    - cloudc
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: cloudc_primary_admin_actions
+theme: cloudc
+region: header
+weight: -4
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

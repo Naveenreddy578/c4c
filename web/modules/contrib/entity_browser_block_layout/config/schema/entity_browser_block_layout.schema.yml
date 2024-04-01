@@ -1,0 +1,10 @@
+node.type.*.third_party.entity_browser_block_layout:
+  type: mapping
+  label: 'Entity browser block layout view mode settings'
+  mapping:
+    entity_browser_block_layout_view_modes:
+      type: sequence
+      label: 'View modes'
+      sequence:
+        type: string
+        label: 'View mode'

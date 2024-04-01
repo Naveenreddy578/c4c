@@ -1,0 +1,234 @@
+<?php
+
+/**
+ * @file
+ * Layout Builder Sections Config module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+ /**
+  * Implements hook_help().
+  */
+function layout_builder_sections_config_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the layout_builder_sections_config module.
+    case 'help.page.layout_builder_sections_config':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module provides customization options for the Layout Builder sections. With this module, you can display the Section title, and provide css classes for them providing you more customization to your sections.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Modify the configuration form for layout builder sections (layouts).
+ */
+function layout_builder_sections_config_form_layout_builder_configure_section_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form_object = $form_state->getFormObject();
+  $config = $form_object->getCurrentLayout()->getConfiguration();
+  $layout_builder_sections_config = \Drupal::getContainer()
+    ->get('config.manager')
+    ->getConfigFactory()
+    ->get('layout_builder_sections_config.settings');
+
+  $form['show_admin_title'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Show section title to end users'),
+    '#default_value' => $config['layout_builder_sections_config']['show_admin_title'] ?? 0,
+  ];
+
+  $position_options = _layout_builder_sections_config_extract_values($layout_builder_sections_config->get('title_wrappers'));
+  $form['title_wrapper'] = [
+    '#type' => 'select',
+    '#title' => t('Title wrapper'),
+    '#options' => $position_options,
+    '#default_value' => $config['layout_builder_sections_config']['title_wrapper'] ?? '',
+    '#empty_option' => t('- None -'),
+    '#states' => [
+      'visible' => [
+        ':input[name="show_admin_title"]' => ['checked' => TRUE],
+      ],
+    ],
+  ];
+
+  $position_options = _layout_builder_sections_config_extract_values($layout_builder_sections_config->get('title_positions'));
+  $form['title_position'] = [
+    '#type' => 'select',
+    '#title' => t('Title position'),
+    '#options' => $position_options,
+    '#default_value' => $config['layout_builder_sections_config']['title_position'] ?? '',
+    '#empty_option' => t('- None -'),
+    '#states' => [
+      'visible' => [
+        ':input[name="show_admin_title"]' => ['checked' => TRUE],
+      ],
+    ],
+  ];
+
+  $color_options = _layout_builder_sections_config_extract_values($layout_builder_sections_config->get('title_colors'));
+  $form['title_color'] = [
+    '#type' => 'select',
+    '#title' => t('Title color'),
+    '#options' => $color_options,
+    '#default_value' => $config['layout_builder_sections_config']['title_color'] ?? '',
+    '#empty_option' => t('- None -'),
+    '#states' => [
+      'visible' => [
+        ':input[name="show_admin_title"]' => ['checked' => TRUE],
+      ],
+    ],
+  ];
+
+  // Our submit handler must execute before the default one, because the
+  // default handler stores the section & component data in the tempstore
+  // and we need to update those objects before that happens.
+  array_unshift($form['#submit'], '_layout_builder_sections_config_submit_form');
+}
+
+/**
+ * Custom submit handler for submitting LB section config form.
+ *
+ * @param array $form
+ *   The form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state object.
+ */
+function _layout_builder_sections_config_submit_form(array $form, FormStateInterface $form_state) {
+  $formObject = $form_state->getFormObject();
+  $config = $formObject->getCurrentLayout()->getConfiguration();
+  if (!$config) {
+    $config = [];
+  }
+  $config['layout_builder_sections_config'] = [
+    'show_admin_title' => $form_state->getValue('show_admin_title'),
+    'title_position' => $form_state->getValue('title_position'),
+    'title_color' => $form_state->getValue('title_color'),
+    'title_wrapper' => $form_state->getValue('title_wrapper'),
+  ];
+
+  $formObject
+    ->getCurrentLayout()
+    ->setConfiguration($config);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function layout_builder_sections_config_preprocess_layout(&$variables) {
+  // Add the Layout Builder section configuration to the $variables.
+  if (isset($variables['settings']['layout_builder_sections_config'])) {
+    $config = $variables['settings']['layout_builder_sections_config'];
+
+    if (isset($config['show_admin_title']) && $config['show_admin_title']) {
+      $label = $variables['settings']['label'];
+      $variables['content']['title'] = [
+        'label' => $label,
+        'wrapper' => $config['title_wrapper'] ?? NULL,
+        'attributes' => [
+          'class' => [$config['title_position'], $config['title_color']],
+        ],
+      ];
+    }
+
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function layout_builder_sections_config_module_implements_alter(&$implementations, $hook) {
+  // We need to run our hook theme after the core modules.
+  if ($hook == 'theme') {
+    $group = $implementations['layout_builder_sections_config'];
+    unset($implementations['layout_builder_sections_config']);
+    $implementations['layout_builder_sections_config'] = $group;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function layout_builder_sections_config_theme($existing, $type, $theme, $path) {
+  return [
+    'layout' => [
+      'template' => 'layout',
+      'render element' => 'content',
+    ],
+    'layout__onecol' => [
+      'base hook' => 'layout',
+      'render element' => 'content',
+      'path' => \Drupal::service('extension.list.module')
+        ->getPath('layout_builder_sections_config') . '/layouts/onecol',
+      'template' => 'layout--onecol',
+    ],
+    'layout__twocol_section' => [
+      'base hook' => 'layout',
+      'path' => \Drupal::service('extension.list.module')
+        ->getPath('layout_builder_sections_config') . '/layouts/twocol_section',
+      'render element' => 'content',
+      'template' => 'layout--twocol-section',
+    ],
+    'layout__threecol_section' => [
+      'base hook' => 'layout',
+      'path' => \Drupal::service('extension.list.module')
+        ->getPath('layout_builder_sections_config') . '/layouts/threecol_section',
+      'render element' => 'content',
+      'template' => 'layout--threecol-section',
+    ],
+    'layout__fourcol_section' => [
+      'base hook' => 'layout',
+      'path' => \Drupal::service('extension.list.module')
+        ->getPath('layout_builder_sections_config') . '/layouts/fourcol_section',
+      'render element' => 'content',
+      'template' => 'layout--fourcol-section',
+    ],
+  ];
+
+}
+
+/**
+ * Helper function to extracts the allowed values array from key|value pairs.
+ *
+ * @param string $string
+ *   The raw string to extract values from.
+ *
+ * @return array|null
+ *   The array of extracted key/value pairs, or NULL if the string is invalid.
+ */
+function _layout_builder_sections_config_extract_values($string) {
+  $values = [];
+
+  $list = explode("\n", $string);
+  $list = array_map('trim', $list);
+  $list = array_filter($list, 'strlen');
+
+  $generated_keys = $explicit_keys = FALSE;
+  foreach ($list as $text) {
+    // Check for an explicit key.
+    $matches = [];
+    if (preg_match('/(.*)\|(.*)/', $text, $matches)) {
+      // Trim key and value to avoid unwanted spaces issues.
+      $key = trim($matches[1]);
+      $value = trim($matches[2]);
+      $explicit_keys = TRUE;
+    }
+    else {
+      return NULL;
+    }
+
+    $values[$key] = $value;
+  }
+
+  // We generate keys only if the list contains no explicit key at all.
+  if ($explicit_keys && $generated_keys) {
+    return NULL;
+  }
+
+  return $values;
+}

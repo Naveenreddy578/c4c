@@ -1,0 +1,25 @@
+uuid: 6db25cbc-c352-46ca-bc43-2f34dc586025
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:ad3d848b-b296-43c1-929b-48ff2e7179b4'
+  module:
+    - block_content
+  theme:
+    - cloudc
+id: cloudc_footerlogo
+theme: cloudc
+region: navigation
+weight: 0
+provider: null
+plugin: 'block_content:ad3d848b-b296-43c1-929b-48ff2e7179b4'
+settings:
+  id: 'block_content:ad3d848b-b296-43c1-929b-48ff2e7179b4'
+  label: 'footer logo'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

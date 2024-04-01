@@ -1,0 +1,5 @@
+name: C4C Custom
+type: module
+description: Module for implementing custom form for registration.
+core_version_requirement: ^8.8 || ^9
+package: C4C

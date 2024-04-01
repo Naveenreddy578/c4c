@@ -1,0 +1,31 @@
+
+
+<div class="c-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        {{ drupal_entity('block', 'cloudc_logo', check_access=false) }}
+      </div>
+      <div class="col-md-4">
+        {{ drupal_entity('block', 'cloudc_mainnavigation') }}
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-warning contact-btn">Contact</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# Main #}
+{% block content %}
+  <a id="main-content"></a>
+  {{ page.content }}
+{% endblock %}
+
+{% if page.footer %}
+  {% block footer %}
+    <footer class="footer {{ container }}" role="contentinfo">
+      {{ page.footer }}
+    </footer>
+  {% endblock %}
+{% endif %}

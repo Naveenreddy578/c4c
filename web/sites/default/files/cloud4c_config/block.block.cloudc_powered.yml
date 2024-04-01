@@ -1,0 +1,22 @@
+uuid: da074cfb-abf3-470f-b3a0-0faa4a732827
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - cloudc
+_core:
+  default_config_hash: eYL19CLDyinGTWYQfBD1DswWzglEotE_kHnHx3AxTXM
+id: cloudc_powered
+theme: cloudc
+region: header
+weight: 2
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

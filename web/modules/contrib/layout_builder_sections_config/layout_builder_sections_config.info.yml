@@ -1,0 +1,13 @@
+name: Layout Builder Sections Config
+description: Additional configuration for Layout Builder Sections.
+core_version_requirement: ^9.5 || ^10
+type: module
+package: Layout Builder
+dependencies:
+  - drupal:layout_builder
+configure: layout_builder_sections_config.settings
+
+# Information added by Drupal.org packaging script on 2023-01-16
+version: '1.0.0-alpha1'
+project: 'layout_builder_sections_config'
+datestamp: 1673895469

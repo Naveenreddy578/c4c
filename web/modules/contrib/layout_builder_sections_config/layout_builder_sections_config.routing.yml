@@ -1,0 +1,7 @@
+layout_builder_sections_config.settings:
+  path: '/admin/config/content/layout-builder-sections-config'
+  defaults:
+    _form: '\Drupal\layout_builder_sections_config\Form\SettingsForm'
+    _title: 'Layout Builder Sections Configuration'
+  requirements:
+    _permission: 'administer site configuration'

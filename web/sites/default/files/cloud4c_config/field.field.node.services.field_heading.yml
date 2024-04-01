@@ -1,0 +1,24 @@
+uuid: db1a7a6d-1813-4db3-9717-332abca3f147
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_heading
+    - filter.format.full_html
+    - node.type.services
+  module:
+    - text
+id: node.services.field_heading
+field_name: field_heading
+entity_type: node
+bundle: services
+label: heading
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long
